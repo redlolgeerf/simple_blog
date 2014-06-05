@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+
+{% block body_block %}
+<div class="col-sm-8 blog-main">
+
+  <div class="blog-post">
+      <h2 class="blog-post-title">{{ post.title }}</h2>
+    <p class="blog-post-meta">{{ post.crated }}</p>
+
+    {{ post.body }}
+
+
+    {% for posttag in post.tags.all %}
+    <ul>
+        <li><a href="/blog/tag/{{posttag.text}}/">{{ posttag }}</a></li>
+    </ul>
+    {% endfor %}
+  </div><!-- /.blog-post -->
+
+  <form id="comment_form" method="post" action="/blog/post/{{ post.id }}/">
+  {% csrf_token %}
+  {% for field in comment_form %}
+  {{ field }}
+  {% endfor %}
+  <button class="btn btn-xs btn-primary" type="submit" name="submit">Добавить комментарий</button>
+
+  {% for comment in comments %}
+  <p>{{ comment.text }}</p>
+  {% endfor %}
+</div><!-- /.blog-main -->
+{% endblock %}

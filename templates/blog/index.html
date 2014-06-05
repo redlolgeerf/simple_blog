@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+
+{% block body_block %}
+<div class="col-sm-8 blog-main">
+
+  {% for post in posts %}
+  <div class="blog-post">
+      <h2 class="blog-post-title"><a href="/blog/post/{{post.id}}/">{{ post.title }}</a></h2>
+    <p class="blog-post-meta">{{ post.crated }}</p>
+
+    <p>{{ post.body }}</p>
+
+    {% for posttag in post.tags.all %}
+    <span class="label label-default"><a href="/blog/tag/{{posttag.text}}/">{{ posttag }}</a></span>
+    {% endfor %}
+  </div><!-- /.blog-post -->
+  {% empty %}
+  <p> Пока постов нету </p>
+  {% endfor %}
+
+  <ul class="pager">
+    <li><a href="#">Previous</a></li>
+    <li><a href="#">Next</a></li>
+  </ul>
+
+</div><!-- /.blog-main -->
+{% endblock %}
