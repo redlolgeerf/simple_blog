@@ -12,14 +12,7 @@ def index(request):
 
     paginator = Paginator(posts, 10)
     page = request.GET.get('page')
-    try:
-        posts_list = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        posts_list = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        posts_list = paginator.page(paginator.num_pages)
+    posts_list = paginate(paginator, page)
     context_dict = {
             'tags': tags,
             'posts': posts_list}
@@ -31,7 +24,13 @@ def tag(request, t_id):
     tag = get_object_or_404(Tag, text=t_id)
     posts = Post.objects.filter(tags=tag)
     tags = Tag.objects.all()
-    context_dict = {'tags': tags, 'posts': posts}
+
+    paginator = Paginator(posts, 10)
+    page = request.GET.get('page')
+    posts_list = paginate(paginator, page)
+    context_dict = {
+            'tags': tags,
+            'posts': posts_list}
     return render_to_response('blog/index.html',
                               context_dict, context)
 
@@ -60,3 +59,14 @@ def detail(request, p_id):
     context_dict['comment_form'] = form
     return render_to_response('blog/detail.html',
                               context_dict, context)
+
+def paginate(paginator, page):
+    try:
+        posts_list = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts_list = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts_list = paginator.page(paginator.num_pages)
+    return posts_list

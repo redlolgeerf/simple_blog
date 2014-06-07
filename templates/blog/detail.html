@@ -9,13 +9,11 @@
 
     {{ post.body }}
 
-
-    {% for posttag in post.tags.all %}
-    <ul>
-        <li><a href="/blog/tag/{{posttag.text}}/">{{ posttag }}</a></li>
-    </ul>
-    {% endfor %}
   </div><!-- /.blog-post -->
+    {% for posttag in post.tags.all %}
+    <span class="label label-default"><a href="/blog/tag/{{posttag.text}}/">{{ posttag }}</a></span>
+    {% endfor %}
+    <p>{{ post.comment_set.count }} комментариев</p>
 
   <form id="comment_form" method="post" action="/blog/post/{{ post.id }}/">
   {% csrf_token %}

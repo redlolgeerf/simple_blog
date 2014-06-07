@@ -14,6 +14,7 @@
     <span class="label label-default"><a href="/blog/tag/{{posttag.text}}/">{{ posttag }}</a></span>
     {% endfor %}
   </div><!-- /.blog-post -->
+    <p>{{ post.comment_set.count }} комментариев</p>
   {% empty %}
   <p> Пока постов нету </p>
   {% endfor %}
@@ -22,9 +23,6 @@
     {% if posts.has_previous %}
         <li><a href="?page={{ posts.previous_page_number }}">Назад</a></li>
     {% endif %}
-    <span class="current">
-        Страница {{ posts.number }} из {{ posts.paginator.num_pages }}
-    </span>
     {% if posts.has_next %}
     <li><a href="?page={{ posts.next_page_number }}">Далее</a></li>
     {% endif %}
